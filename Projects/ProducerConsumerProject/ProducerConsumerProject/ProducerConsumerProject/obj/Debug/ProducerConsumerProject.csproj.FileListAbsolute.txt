@@ -1,0 +1,7 @@
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\bin\Debug\ProducerConsumerProject.exe.config
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\bin\Debug\ProducerConsumerProject.exe
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\bin\Debug\ProducerConsumerProject.pdb
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\obj\Debug\ProducerConsumerProject.csprojAssemblyReference.cache
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\obj\Debug\ProducerConsumerProject.csproj.CoreCompileInputs.cache
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\obj\Debug\ProducerConsumerProject.exe
+C:\Users\l017081h\source\repos\CNA C#\ProducerConsumerProject\ProducerConsumerProject\obj\Debug\ProducerConsumerProject.pdb
