@@ -10,9 +10,6 @@ namespace SimpleServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
-
             string IP = "127.0.0.1"; //local IP
             int port = 4444;
 

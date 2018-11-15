@@ -60,6 +60,11 @@ namespace SimpleServer
                 returnedMessage = GetReturnMessage(receivedMessage);
                 writer.WriteLine("user ", clientCountDisplay, ": ", returnedMessage);
                 writer.Flush();
+
+                if (returnedMessage == "exit")
+                {
+                    break;
+                }
             }
 
             socket.Close();

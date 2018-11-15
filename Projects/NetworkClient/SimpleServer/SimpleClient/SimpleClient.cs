@@ -25,28 +25,22 @@ namespace SimpleClient
 
         public bool Connect(string ipAddress, int port)
         {
-            bool connection = false;
 
             try
             {
                 tcpClient.Connect(ipAddress, port);
                 stream = tcpClient.GetStream();
-
-                string receivedMessage;
-                
                 reader = new StreamReader(stream);
                 writer = new StreamWriter(stream);
 
-                connection = true;
             }
             catch(Exception e)
             {
-                connection = false;
                 Console.WriteLine("ExceptionL " + e.Message);
-                return connection;
+                return false;
             }
             
-            return connection;
+            return true;
         }
 
         public void Run()
@@ -54,11 +48,24 @@ namespace SimpleClient
             string userInput;
 
             ProcessServerResponse();
+
+            while((userInput = Console.ReadLine()) != null){
+                writer.WriteLine(userInput);
+                writer.Flush();
+
+                if (userInput == "exit")
+                {
+                    break;
+                }
+            }
+
+            tcpClient.Close();
         }
 
         void ProcessServerResponse()
         {
-
+            Console.Write("Server says " + reader.ReadLine());
+            Console.WriteLine();
         }
     }
 }
