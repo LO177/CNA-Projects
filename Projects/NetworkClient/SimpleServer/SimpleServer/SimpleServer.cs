@@ -12,56 +12,90 @@ namespace SimpleServer
     class SimpleServer
     {
         TcpListener tcpListener;
-        static int clientsConnected = 0;
-        
+        List<Socket> clientsConnected = new List<Socket>();
+        int currClientNumb = 0;
+
+
         public SimpleServer(string ipAddress, int port)
         {
+
             IPAddress IPClient = IPAddress.Parse(ipAddress);
             tcpListener = new TcpListener(IPClient, port);
             
         }
 
+        /*public bool Connect(string ipAddress, int port)
+        {
+            try
+            {
+                tcpListener.Connect(ipAddress, port);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ExceptionS " + e.Message);
+                return false;
+            }
+
+            return true;
+        }*/
+
         public void Start()
         {
+            Console.WriteLine("Initialising...");
+
             tcpListener.Start();
             Socket currentSocket = tcpListener.AcceptSocket();
+            Console.WriteLine("Client Connected...");
 
-            clientsConnected++;
 
-            SocketMethod(currentSocket);
+            if (clientsConnected.Count == 0) {
+                clientsConnected.Add(currentSocket);
+            }
+            else {
+                for (int i = 0; i < clientsConnected.Count; i++) {
+                    if (currentSocket == clientsConnected[i]) {
+                        currClientNumb = i;
+                        break;
+                    }
+                    else if (clientsConnected[i] == null) {
+                        clientsConnected[i] = currentSocket;
+                    }
+                }
+            }
+
+            currClientNumb++; // To make sure client number shown doesn't start at zero
+
+            SocketMethod(currentSocket, currClientNumb);
         }
 
         public void Stop()
         {
             tcpListener.Stop();
-
-            clientsConnected--;
         }
 
-        static void SocketMethod(Socket socket)
+        static void SocketMethod(Socket socket, int currClientNumb)
         {
             string receivedMessage;
-            NetworkStream stream;
 
-            stream = new NetworkStream(socket);
-
+            NetworkStream stream = new NetworkStream(socket);
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
 
-            writer.WriteLine("Packet received...");
+            //Console.WriteLine(reader.ReadLine());
+
+            writer.WriteLine("message sent...");
             writer.Flush();
 
 
-            string clientCountDisplay = clientsConnected.ToString();
-            string returnedMessage = "";
+            string clientCountDisplay = currClientNumb.ToString();
 
             while ((receivedMessage = reader.ReadLine()) != null)
             {
-                returnedMessage = GetReturnMessage(receivedMessage);
-                writer.WriteLine("user ", clientCountDisplay, ": ", returnedMessage);
+                writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
                 writer.Flush();
 
-                if (returnedMessage == "exit")
+                if (receivedMessage == "exit")
                 {
                     break;
                 }

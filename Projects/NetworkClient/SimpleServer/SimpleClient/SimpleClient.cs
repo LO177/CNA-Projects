@@ -52,6 +52,7 @@ namespace SimpleClient
             while((userInput = Console.ReadLine()) != null){
                 writer.WriteLine(userInput);
                 writer.Flush();
+                ProcessServerResponse();
 
                 if (userInput == "exit")
                 {
@@ -64,7 +65,7 @@ namespace SimpleClient
 
         void ProcessServerResponse()
         {
-            Console.Write("Server says " + reader.ReadLine());
+            Console.WriteLine("Server says " + reader.ReadLine());
             Console.WriteLine();
         }
     }
