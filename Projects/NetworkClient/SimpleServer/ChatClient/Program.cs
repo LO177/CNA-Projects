@@ -16,7 +16,20 @@ namespace ChatClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            /////////////////////////change this^
+
+            string IP = "127.0.0.1"; //local IP
+            int port = 4444;
+
+            ChatClient clientInst = new ChatClient();
+            if (clientInst.Connect(IP, port))
+            {
+                //clientInst.button1.PerformClick();
+            }
+            else
+            {
+                Console.WriteLine("Failed to connect to the server");
+            }
         }
     }
 }

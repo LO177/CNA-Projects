@@ -76,12 +76,14 @@ namespace SimpleServer
 
         static void SocketMethod(Socket socket, int currClientNumb)
         {
+            
+
             string receivedMessage;
 
             NetworkStream stream = new NetworkStream(socket);
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
-
+            
             //Console.WriteLine(reader.ReadLine());
 
             writer.WriteLine("message sent...");

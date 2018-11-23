@@ -1,0 +1,10 @@
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\bin\Debug\ChatClient.exe.config
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\bin\Debug\ChatClient.exe
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\bin\Debug\ChatClient.pdb
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.csprojAssemblyReference.cache
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.Properties.Resources.resources
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.csproj.GenerateResource.cache
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.csproj.CoreCompileInputs.cache
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.exe
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.pdb
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\ChatClient\obj\Debug\ChatClient.ChatClient.resources
