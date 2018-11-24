@@ -25,6 +25,10 @@ namespace ChatClient
             if (clientInst.Connect(IP, port))
             {
                 //clientInst.button1.PerformClick();
+                /*while(clientInst.Connect(IP, port))
+                {
+                    KeyboardInputRegister();
+                }*/
             }
             else
             {

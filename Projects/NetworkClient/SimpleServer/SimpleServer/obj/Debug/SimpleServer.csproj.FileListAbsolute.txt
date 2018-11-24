@@ -5,3 +5,10 @@ C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleSer
 C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
 C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
 C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe.config
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\bin\Debug\SimpleServer.pdb
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csprojResolveAssemblyReference.cache
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
+D:\Y2\GithubRepositories\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb

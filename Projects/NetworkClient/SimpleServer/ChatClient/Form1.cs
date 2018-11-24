@@ -101,7 +101,23 @@ namespace ChatClient
             writer.WriteLine(userInput);
             writer.Flush();
 
+            textBox1.Text = "";
             //ProcessServerResponse();
+        }
+
+        private void KeyboardInputRegister(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                string userInput;
+
+                userInput = textBox1.Text;
+
+                writer.WriteLine(userInput);
+                writer.Flush();
+
+                textBox1.Text = "";
+            }
         }
 
         void UpdateChatWindow(string message)
