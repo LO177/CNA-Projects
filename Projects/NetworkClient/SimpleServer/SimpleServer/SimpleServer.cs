@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
+using System.Threading;
 
 namespace SimpleServer
 {
@@ -46,6 +47,10 @@ namespace SimpleServer
 
             tcpListener.Start();
             Socket currentSocket = tcpListener.AcceptSocket();
+
+            Thread thread = new Thread(new ParameterizedThreadStart(ClientMethod));
+            thread.Start(client);
+
             Console.WriteLine("Client Connected...");
 
 
@@ -66,7 +71,7 @@ namespace SimpleServer
 
             currClientNumb++; // To make sure client number shown doesn't start at zero
 
-            SocketMethod(currentSocket, currClientNumb);
+            ClientMethod(currentSocket, currClientNumb);
         }
 
         public void Stop()
@@ -74,16 +79,16 @@ namespace SimpleServer
             tcpListener.Stop();
         }
 
-        static void SocketMethod(Socket socket, int currClientNumb)
+        static void ClientMethod(Socket socket, int currClientNumb)
         {
-            
+
 
             string receivedMessage;
 
             NetworkStream stream = new NetworkStream(socket);
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
-            
+
             //Console.WriteLine(reader.ReadLine());
 
             writer.WriteLine("message sent...");
@@ -106,10 +111,63 @@ namespace SimpleServer
             socket.Close();
         }
 
+        /*static void SocketMethod(Socket socket, int currClientNumb)
+        {
+
+
+            string receivedMessage;
+
+            NetworkStream stream = new NetworkStream(socket);
+            StreamReader reader = new StreamReader(stream);
+            StreamWriter writer = new StreamWriter(stream);
+
+            //Console.WriteLine(reader.ReadLine());
+
+            writer.WriteLine("message sent...");
+            writer.Flush();
+
+
+            string clientCountDisplay = currClientNumb.ToString();
+
+            while ((receivedMessage = reader.ReadLine()) != null)
+            {
+                writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
+                writer.Flush();
+
+                if (receivedMessage == "exit")
+                {
+                    break;
+                }
+            }
+
+            socket.Close();
+        }*/
+
         static string GetReturnMessage(string code)
         {
             string str = code;
             return str;
         }
+    }
+
+    class ClientClass
+    {
+        Socket socket;
+        NetworkStream stream;
+        public StreamReader reader { get; private set; }
+        public StreamWriter writer { get; private set; }
+
+        void Client(Socket socket)
+        {
+            this.socket = socket;
+
+            
+        }
+
+        void Close()
+        {
+
+        }
+
     }
 }
