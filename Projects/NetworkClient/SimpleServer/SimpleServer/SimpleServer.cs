@@ -13,7 +13,9 @@ namespace SimpleServer
     class SimpleServer
     {
         TcpListener tcpListener;
-        List<Socket> clientsConnected = new List<Socket>();
+        List<ClientClass> clientsConnected = new List<ClientClass>();
+
+
         int currClientNumb = 0;
 
 
@@ -46,32 +48,43 @@ namespace SimpleServer
             Console.WriteLine("Initialising...");
 
             tcpListener.Start();
-            Socket currentSocket = tcpListener.AcceptSocket();
 
-            Thread thread = new Thread(new ParameterizedThreadStart(ClientMethod));
-            thread.Start(client);
+            while (true) {
+                Socket currentSocket = tcpListener.AcceptSocket();
+                //get the int value for the client index
+                currClientNumb++;
 
-            Console.WriteLine("Client Connected...");
-
-
-            if (clientsConnected.Count == 0) {
-                clientsConnected.Add(currentSocket);
-            }
-            else {
-                for (int i = 0; i < clientsConnected.Count; i++) {
-                    if (currentSocket == clientsConnected[i]) {
-                        currClientNumb = i;
-                        break;
-                    }
-                    else if (clientsConnected[i] == null) {
-                        clientsConnected[i] = currentSocket;
-                    }
+                ClientClass currentClient = new ClientClass(currentSocket, currClientNumb);
+                //add to clientsConnected list
+                /*if (clientsConnected.Count == 0)
+                {
+                    clientsConnected.Add(currentSocket);
                 }
+                else
+                {
+                    for (int i = 0; i < clientsConnected.Count; i++)
+                    {
+                        if (currentSocket == clientsConnected[i])
+                        {
+                            //currClientNumb = i;
+                            break;
+                        }
+                        else if (clientsConnected[i] == null)
+                        {
+                            clientsConnected[i] = currentSocket;
+                        }
+                    }
+                }*/
+
+                //currClientNumb++; // To make sure client number shown doesn't start at zero
+
+                
+                Thread thread = new Thread(new ParameterizedThreadStart(ClientMethod));
+
+                thread.Start(currentClient);
+
+                Console.WriteLine("Client Connected...");
             }
-
-            currClientNumb++; // To make sure client number shown doesn't start at zero
-
-            ClientMethod(currentSocket, currClientNumb);
         }
 
         public void Stop()
@@ -79,28 +92,24 @@ namespace SimpleServer
             tcpListener.Stop();
         }
 
-        static void ClientMethod(Socket socket, int currClientNumb)
+        static void ClientMethod(object clientObject)
         {
-
+            ClientClass client = (ClientClass)clientObject;
 
             string receivedMessage;
 
-            NetworkStream stream = new NetworkStream(socket);
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
-
             //Console.WriteLine(reader.ReadLine());
 
-            writer.WriteLine("message sent...");
-            writer.Flush();
+            client.writer.WriteLine("message sent...");
+            client.writer.Flush();
 
 
-            string clientCountDisplay = currClientNumb.ToString();
+            string clientCountDisplay = client.thisClient.ToString();
 
-            while ((receivedMessage = reader.ReadLine()) != null)
+            while ((receivedMessage = client.reader.ReadLine()) != null)
             {
-                writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
-                writer.Flush();
+                client.writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
+                client.writer.Flush();
 
                 if (receivedMessage == "exit")
                 {
@@ -108,7 +117,7 @@ namespace SimpleServer
                 }
             }
 
-            socket.Close();
+            client.Close();
         }
 
         /*static void SocketMethod(Socket socket, int currClientNumb)
@@ -156,17 +165,22 @@ namespace SimpleServer
         NetworkStream stream;
         public StreamReader reader { get; private set; }
         public StreamWriter writer { get; private set; }
-
-        void Client(Socket socket)
+        //create an int for client number
+        public int thisClient = 0;
+        public ClientClass(Socket socket, int currClientNumb)
         {
             this.socket = socket;
+            //set client number from currClientNumb
+            stream = new NetworkStream(socket);
+            reader = new StreamReader(stream);
+            writer = new StreamWriter(stream);
 
-            
+            thisClient = currClientNumb;
         }
 
-        void Close()
+        public void Close()
         {
-
+            socket.Close();
         }
 
     }
