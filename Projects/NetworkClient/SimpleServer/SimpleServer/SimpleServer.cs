@@ -55,6 +55,8 @@ namespace SimpleServer
                 currClientNumb++;
 
                 ClientClass currentClient = new ClientClass(currentSocket, currClientNumb);
+
+                clientsConnected.Add(currentClient);
                 //add to clientsConnected list
                 /*if (clientsConnected.Count == 0)
                 {
@@ -78,7 +80,7 @@ namespace SimpleServer
 
                 //currClientNumb++; // To make sure client number shown doesn't start at zero
 
-                
+
                 Thread thread = new Thread(new ParameterizedThreadStart(ClientMethod));
 
                 thread.Start(currentClient);
@@ -92,7 +94,7 @@ namespace SimpleServer
             tcpListener.Stop();
         }
 
-        static void ClientMethod(object clientObject)
+        void ClientMethod(object clientObject)
         {
             ClientClass client = (ClientClass)clientObject;
 
@@ -110,6 +112,16 @@ namespace SimpleServer
             {
                 client.writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
                 client.writer.Flush();
+
+                for (int i = 0; i < clientsConnected.Count; i++)
+                {
+                    ClientClass selectedClient = clientsConnected[i];
+                    if (selectedClient != client)
+                    {
+                        selectedClient.writer.WriteLine("user " + clientCountDisplay + ": " + GetReturnMessage(receivedMessage));
+                        selectedClient.writer.Flush();
+                    }
+                }
 
                 if (receivedMessage == "exit")
                 {
