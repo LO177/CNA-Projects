@@ -7,6 +7,9 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using Packets;
 
 namespace SimpleServer
 {
@@ -175,19 +178,29 @@ namespace SimpleServer
     {
         Socket socket;
         NetworkStream stream;
-        public StreamReader reader { get; private set; }
-        public StreamWriter writer { get; private set; }
+       
+        public BinaryReader reader { get; private set; }
+        public BinaryWriter writer { get; private set; }
+
+        BinaryFormatter formatter;
+
         //create an int for client number
         public int thisClient = 0;
         public ClientClass(Socket socket, int currClientNumb)
         {
+            formatter = new BinaryFormatter();
             this.socket = socket;
             //set client number from currClientNumb
             stream = new NetworkStream(socket);
-            reader = new StreamReader(stream);
-            writer = new StreamWriter(stream);
+            reader = new BinaryReader(stream);
+            writer = new BinaryWriter(stream);
 
             thisClient = currClientNumb;
+        }
+
+        public void Client()
+        {
+
         }
 
         public void Close()
@@ -195,5 +208,16 @@ namespace SimpleServer
             socket.Close();
         }
 
+        public void Send(Packet packet)
+        {
+            MemoryStream memstream = new MemoryStream();
+            formatter.Serialize(memstream, packet);
+
+            byte[] buffer = memstream.GetBuffer();
+
+            writer.Write(buffer.Length);
+            writer.Write(buffer);
+            writer.Flush();
+        }
     }
 }
