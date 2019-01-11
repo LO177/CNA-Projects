@@ -11,6 +11,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
+using Packets;
 
 namespace ChatClient
 {
@@ -18,8 +20,10 @@ namespace ChatClient
     {
         TcpClient tcpClient;
         NetworkStream stream;
-        StreamWriter writer;
-        StreamReader reader;
+        BinaryReader reader;
+        BinaryWriter writer;
+
+        static BinaryFormatter formatter = new BinaryFormatter();
 
         delegate void UpdateChatWindowDelegate(string message);
         UpdateChatWindowDelegate _updateChatWindowDelegate;
@@ -33,13 +37,12 @@ namespace ChatClient
 
         public bool Connect(string ipAddress, int port)
         {
-
             try
             {
                 tcpClient.Connect(ipAddress, port);
                 stream = tcpClient.GetStream();
-                reader = new StreamReader(stream);
-                writer = new StreamWriter(stream);
+                reader = new BinaryReader(stream);
+                writer = new BinaryWriter(stream);
 
                 Thread read = new Thread(ProcessServerResponse);
                 read.Start();
@@ -80,29 +83,82 @@ namespace ChatClient
         void ProcessServerResponse()
         {
             string response;
-            //Console.WriteLine("Server says: " + reader.ReadLine());
-            //Console.WriteLine();
+            //Console.Write("Server says: " + reader.ReadLine());
+            //Console.Write();
 
-            while (true)
+
+
+            int noOfIncomingBytes = 0;
+
+            while ((noOfIncomingBytes = reader.ReadInt32()) != 0)
             {
-                response = reader.ReadLine();
+                byte[] bites = reader.ReadBytes(noOfIncomingBytes);
 
+                MemoryStream byteStream = new MemoryStream(bites);
 
-                UpdateChatWindow(response);
+                Packet packet = formatter.Deserialize(byteStream) as Packet;
+
+                ChatMessagePacket messageRead = HandlePacket(packet) as ChatMessagePacket;
+
+                var this_read = Task.Run(() => UpdateChatWindow(messageRead._message));
             }
         }
 
+        static Packet HandlePacket(Packet packet)
+        {
+            switch (packet.type)
+            {
+                case PacketType.CHATMESSAGE:
+
+                    string message = ((ChatMessagePacket)packet)._message;
+                    ChatMessagePacket chatmessagepacket = new ChatMessagePacket(message);
+
+                    return chatmessagepacket;
+
+                default:
+
+                    return null;
+            }
+        }
+
+        void Send(Packet packet)
+        {
+            MemoryStream memstream = new MemoryStream();
+            formatter.Serialize(memstream, packet);
+
+            byte[] buffer = memstream.GetBuffer();
+
+            writer.Write(buffer.Length);
+            writer.Write(buffer);
+        }
+
+
+
+
+
+
+
+        ////////////////////////////////////////////////////////////////////
+
+        
+        
+        
+        
+        
         public void button1_Click(object sender, EventArgs e)
         {
             string userInput;
 
             userInput = textBox1.Text;
-            
-            writer.WriteLine(userInput);
-            writer.Flush();
+
+            //writer.Write(userInput);
+            //writer.Flush();
+
+            ChatMessagePacket chatmessagepacket = new ChatMessagePacket(userInput);
+
+            Send(chatmessagepacket);
 
             textBox1.Text = "";
-            //ProcessServerResponse();
         }
 
         private void KeyboardInputRegister(object sender, KeyPressEventArgs e)
@@ -113,7 +169,7 @@ namespace ChatClient
 
                 userInput = textBox1.Text;
 
-                writer.WriteLine(userInput);
+                writer.Write(userInput);
                 writer.Flush();
 
                 textBox1.Text = "";
@@ -128,6 +184,8 @@ namespace ChatClient
             }
             else
             {
+                Console.WriteLine("{0} Thread ID: {1}" + Thread.CurrentThread.ManagedThreadId);
+
                 richTextBox1.Text += message += "\n";
                 richTextBox1.SelectionStart = richTextBox1.Text.Length;
                 richTextBox1.ScrollToCaret();

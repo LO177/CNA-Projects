@@ -177,24 +177,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\l017081h\\.nuget\\packages\\": {},
+    "C:\\Users\\Xyvn\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\l017081h\\Documents\\GitHub\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\Packets.csproj",
+      "projectUniqueName": "D:\\Y2\\GithubRepositories\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\Packets.csproj",
       "projectName": "Packets",
-      "projectPath": "C:\\Users\\l017081h\\Documents\\GitHub\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\Packets.csproj",
-      "packagesPath": "C:\\Users\\l017081h\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\l017081h\\Documents\\GitHub\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\obj\\",
+      "projectPath": "D:\\Y2\\GithubRepositories\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\Packets.csproj",
+      "packagesPath": "C:\\Users\\Xyvn\\.nuget\\packages\\",
+      "outputPath": "D:\\Y2\\GithubRepositories\\CNA-Projects\\Projects\\NetworkClient\\SimpleServer\\Packets\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\l017081h\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Xyvn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"

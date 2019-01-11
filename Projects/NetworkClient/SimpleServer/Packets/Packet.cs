@@ -7,27 +7,30 @@ namespace Packets
         EMPTY, NICKNAME, CHATMESSAGE
     }
 
+    [Serializable]
     public class Packet
     {
         public PacketType type = PacketType.EMPTY;
     }
 
+    [Serializable]
     public class ChatMessagePacket : Packet
     {
-        string _message;
+        public string _message;
 
-        ChatMessagePacket(string message)
+        public ChatMessagePacket(string message)
         {
             type = PacketType.CHATMESSAGE;
             _message = message;
         }
     }
 
+    [Serializable]
     public class NicknamePacket : Packet
     {
-        string _nickName;
+        public string _nickName;
 
-        NicknamePacket(string nickName)
+        public NicknamePacket(string nickName)
         {
             type = PacketType.NICKNAME;
             _nickName = nickName;

@@ -16,8 +16,8 @@ namespace SimpleServer
     class SimpleServer
     {
         TcpListener tcpListener;
-        List<ClientClass> clientsConnected = new List<ClientClass>();
-
+        static List<ClientClass> clientsConnected = new List<ClientClass>();
+        static BinaryFormatter formatter = new BinaryFormatter();
 
         int currClientNumb = 0;
 
@@ -97,15 +97,42 @@ namespace SimpleServer
             tcpListener.Stop();
         }
 
-        void ClientMethod(object clientObject)
+        static void ClientMethod(object clientObject)
         {
             ClientClass client = (ClientClass)clientObject;
+            
+            string clientCountDisplay = client.thisClient.ToString();
 
-            string receivedMessage;
+            int noOfIncomingBytes = 0;
+
+            while ((noOfIncomingBytes = client.reader.ReadInt32()) != 0)
+            {
+                byte[] bites = client.reader.ReadBytes(noOfIncomingBytes);
+
+                MemoryStream byteStream = new MemoryStream(bites);
+
+                Packet packet = formatter.Deserialize(byteStream) as Packet;
+
+                for (int i = 0; i < clientsConnected.Count; i++)
+                {
+                    ClientClass selectedClient = clientsConnected[i];
+                    //if (selectedClient != client)
+                    //{
+                        HandlePacket(selectedClient, packet);
+                    //}
+
+                    /*if (receivedMessage == "/exit")
+                    {
+                        break;
+                    }*/
+                }
+            }
+
+            client.Close();
 
             //Console.WriteLine(reader.ReadLine());
 
-            client.writer.WriteLine("message sent...");
+            /*client.writer.WriteLine("message sent...");
             client.writer.Flush();
 
 
@@ -126,13 +153,13 @@ namespace SimpleServer
                     }
                 }
 
-                if (receivedMessage == "exit")
-                {
-                    break;
-                }
+                //if (receivedMessage == "exit")
+                //{
+                //    break;
+                //}
             }
 
-            client.Close();
+            client.Close();*/
         }
 
         /*static void SocketMethod(Socket socket, int currClientNumb)
@@ -171,6 +198,23 @@ namespace SimpleServer
         {
             string str = code;
             return str;
+        }
+
+        static void HandlePacket(ClientClass client, Packet packet)
+        {
+            switch (packet.type)
+            {
+                case PacketType.CHATMESSAGE:
+
+                    string message = ((ChatMessagePacket)packet)._message;
+                    ChatMessagePacket chatmessagepacket = new ChatMessagePacket(message);
+
+                    ClientClass currentClient = client;
+
+                    currentClient.Send(chatmessagepacket);
+
+                    break;
+            }
         }
     }
 
@@ -217,6 +261,7 @@ namespace SimpleServer
 
             writer.Write(buffer.Length);
             writer.Write(buffer);
+            //writer.Write(packet);
             writer.Flush();
         }
     }
