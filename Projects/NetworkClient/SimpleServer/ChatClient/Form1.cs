@@ -82,7 +82,7 @@ namespace ChatClient
 
         void ProcessServerResponse()
         {
-            string response;
+            //string response;
             //Console.Write("Server says: " + reader.ReadLine());
             //Console.Write();
 
@@ -121,15 +121,20 @@ namespace ChatClient
             }
         }
 
-        void Send(Packet packet)
+        void UpdateChatWindow(string message)
         {
-            MemoryStream memstream = new MemoryStream();
-            formatter.Serialize(memstream, packet);
+            if (InvokeRequired)
+            {
+                Invoke(_updateChatWindowDelegate, message);
+            }
+            else
+            {
+                Console.WriteLine("{0} Thread ID: {1}" + Thread.CurrentThread.ManagedThreadId);
 
-            byte[] buffer = memstream.GetBuffer();
-
-            writer.Write(buffer.Length);
-            writer.Write(buffer);
+                richTextBox1.Text += message += "\n";
+                richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                richTextBox1.ScrollToCaret();
+            }
         }
 
 
@@ -154,6 +159,11 @@ namespace ChatClient
             //writer.Write(userInput);
             //writer.Flush();
 
+            if (textBox1.Text == "/exit")
+            {
+                Application.Exit();
+            }
+
             ChatMessagePacket chatmessagepacket = new ChatMessagePacket(userInput);
 
             Send(chatmessagepacket);
@@ -169,27 +179,32 @@ namespace ChatClient
 
                 userInput = textBox1.Text;
 
-                writer.Write(userInput);
-                writer.Flush();
+                //writer.Write(userInput);
+                //writer.Flush();
+
+                if (textBox1.Text == "/exit")
+                {
+                    Application.Exit();
+                }
+
+                ChatMessagePacket chatmessagepacket = new ChatMessagePacket(userInput);
+
+                Send(chatmessagepacket);
 
                 textBox1.Text = "";
             }
         }
 
-        void UpdateChatWindow(string message)
+        void Send(Packet packet)
         {
-            if (InvokeRequired)
-            {
-                Invoke(_updateChatWindowDelegate, message);
-            }
-            else
-            {
-                Console.WriteLine("{0} Thread ID: {1}" + Thread.CurrentThread.ManagedThreadId);
+            MemoryStream memstream = new MemoryStream();
+            formatter.Serialize(memstream, packet);
 
-                richTextBox1.Text += message += "\n";
-                richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                richTextBox1.ScrollToCaret();
-            }
+            byte[] buffer = memstream.GetBuffer();
+
+            writer.Write(buffer.Length);
+            writer.Write(buffer);
+            writer.Flush();
         }
     }
 }

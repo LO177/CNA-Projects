@@ -202,16 +202,27 @@ namespace SimpleServer
 
         static void HandlePacket(ClientClass client, Packet packet)
         {
+            ClientClass currentClient = client;
+
             switch (packet.type)
             {
                 case PacketType.CHATMESSAGE:
 
                     string message = ((ChatMessagePacket)packet)._message;
-                    ChatMessagePacket chatmessagepacket = new ChatMessagePacket(message);
 
-                    ClientClass currentClient = client;
+                    if (message != "/exit") {
+                        ChatMessagePacket chatmessagepacket = new ChatMessagePacket(message);
 
-                    currentClient.Send(chatmessagepacket);
+                        currentClient.Send(chatmessagepacket);
+                    }
+                    else
+                    {
+                        string exitAnnounce = "[user has disconnected]";
+
+                        ChatMessagePacket chatmessagepacket = new ChatMessagePacket(exitAnnounce);
+
+                        currentClient.Send(chatmessagepacket);
+                    }
 
                     break;
             }
