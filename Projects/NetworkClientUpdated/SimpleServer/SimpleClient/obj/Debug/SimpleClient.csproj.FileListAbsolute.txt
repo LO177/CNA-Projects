@@ -1,0 +1,7 @@
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\bin\Debug\SimpleClient.exe.config
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\bin\Debug\SimpleClient.exe
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\bin\Debug\SimpleClient.pdb
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\obj\Debug\SimpleClient.csprojAssemblyReference.cache
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\obj\Debug\SimpleClient.csproj.CoreCompileInputs.cache
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\obj\Debug\SimpleClient.exe
+C:\Users\l017081h\Documents\GitHub\CNA-Projects\Projects\NetworkClient\SimpleServer\SimpleClient\obj\Debug\SimpleClient.pdb
